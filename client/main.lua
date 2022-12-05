@@ -1,26 +1,11 @@
-GBCore = nil                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        if GBCore == nil then
-            TriggerEvent('GBCore:GetObject', function(obj) GBCore = obj end)
-            Citizen.Wait(200)
-        end
-    end
-end)
-
+local QBCore = exports['qb-core']:GetCoreObject()
 local checkingbag = false
 local IsUIActive = false
 local cachedBins = {}
-
 local ragdoll_chance = 0.42
-
-
-
 local Bags = {
     'prop_beach_bag_01b'
 }
-
 
 Citizen.CreateThread(function()
     Citizen.Wait(100)
@@ -41,9 +26,8 @@ Citizen.CreateThread(function()
                 if IsControlJustReleased(0, 38) then
                     if not cachedBins[entity] then
                         openBin(entity)
-                    else
-						
-                        GBCore.Functions.Notify('You already searched this bag..',"error", 3500)
+                    else						
+                        QBCore.Functions.Notify('You already searched this bag..',"error", 3500)
                     end
                 end
                 break
@@ -55,13 +39,10 @@ Citizen.CreateThread(function()
     end
 end)
 
-
-
 openBin = function(entity)
 	searching = true
-    cachedBins[entity] = true
-     Tasjesdief()
-	--ClearPedTasks(PlayerPedId())
+        cachedBins[entity] = true
+        Tasjesdief()
 	searching = false
 end
 
@@ -99,14 +80,13 @@ function PreparingAnimCheck()
 
             if checkingbag then
                 if not IsEntityPlayingAnim(ped, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', 3) then
-    LoadAnim('anim@amb@clubhouse@tutorial@bkr_tut_ig3@')
-    TaskPlayAnim(ped, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+                  LoadAnim('anim@amb@clubhouse@tutorial@bkr_tut_ig3@')
+                  TaskPlayAnim(ped, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
                end
             else
                 ClearPedTasksImmediately(ped)
                 break
             end
-
             Citizen.Wait(200)
         end
     end)
@@ -118,15 +98,14 @@ function FinishMinigame(faults)
         Quality = "best"
     elseif faults == 1 then
         Quality = "bijna"
-    end
-	
+    end	
 	if Quality ~= nil and Quality ~= 0 then
 		if Quality == "bijna" then
-		GBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
+		QBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
 		elseif Quality == "best" then
-		GBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
+		QBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
 		else
-		GBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
+		QBCore.Functions.TriggerCallback('cpbea:server:Reward', function() end)
 		end
 	end
     checkingbag = false
